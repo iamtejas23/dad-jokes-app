@@ -1,5 +1,6 @@
 // JokeList.jsx
 import React, { useState, useEffect } from 'react';
+import { FaCopy } from "react-icons/fa";
 import './list.css';
 
 const JokeList = () => {
@@ -36,34 +37,45 @@ const JokeList = () => {
     }
   };
 
-return (
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        alert('Joke copied to clipboard!');
+      })
+      .catch((error) => {
+        console.error('Error copying to clipboard:', error);
+      });
+  };
+
+  return (
     <div>
-        <div className='container'>
-            <h1>Dad Jokes</h1>
-            <div className="search-bar">
-                <input 
-                    type="text"
-                    placeholder="Search Jokes"
-                    value={searchTerm}
-                    onChange={(e) => handleSearch(e.target.value)}
-                />
-            </div>
-            <div className="joke-con">
-                <ul>
-                    {filteredJokes.map((joke, index) => (
-                        <div className="joke" key={index}>
-                            <li>{joke}</li>
-                        </div>
-                    ))}
-                </ul>
-            </div>
+      <div className='container'>
+        <h1>Dad Jokes</h1>
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search Jokes"
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
         </div>
-        <div className="footer">
-            <p>© 2024 Dad Jokes</p>
-            <p>Made By <a href="https://tejasmane.netlify.app/">Tejas Mane</a></p>
+        <div className="joke-con">
+          <ul>
+            {filteredJokes.map((joke, index) => (
+              <div className="joke" key={index}>
+                <li>{joke}</li>
+                <button className='copy' onClick={() => copyToClipboard(joke)}><FaCopy /></button>
+              </div>
+            ))}
+          </ul>
         </div>
+      </div>
+      <div className="footer">
+        <p>© 2024 Dad Jokes</p>
+        <p>Made By <a href="https://tejasmane.netlify.app/">Tejas Mane</a></p>
+      </div>
     </div>
-);
+  );
 };
 
 export default JokeList;
